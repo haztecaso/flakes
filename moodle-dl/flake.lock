@@ -52,16 +52,17 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1645623357,
-        "narHash": "sha256-vAaI91QFn/kY/uMiebW+kG2mPmxirMSJWYtkqkBKdDc=",
-        "owner": "NixOS",
+        "lastModified": 1649377169,
+        "narHash": "sha256-T9MkX36zJdWnwjX0t2atVuXLpxrZXa51qUjhCHYtbx8=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "9222ae36b208d1c6b55d88e10aa68f969b5b5244",
+        "rev": "8d486e482f434f65b2f6731030423b4b0d8db4b1",
         "type": "github"
       },
       "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "pypi-deps-db": {
