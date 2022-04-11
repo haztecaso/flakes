@@ -20,11 +20,11 @@
       });
       nixosModule = { config, lib, pkgs, ... }:
       let
-        cfg = config.custom.services.moodle-dl;
+        cfg = config.services.moodle-dl;
         i2s = lib.strings.floatToString;
         script = pkgs.writeScriptBin "moodle-dl" ''
           #!${pkgs.runtimeShell}
-          FOLDER=/var/lib/syncthing/uni-moodle/ 
+          FOLDER=${cfg.folder}
           cd $FOLDER || { echo '$FOLDER does not exist' ; exit 1; }
           ln -fs ${cfg.configFile} config.json
           ${pkgs.moodle-dl}/bin/moodle-dl
@@ -38,14 +38,18 @@
             default = 10;
             description = "frequency of cron job in minutes";
           };
+          folder = mkOption {
+            type = types.str;
+            example = "/var/lib/syncthing/uni-moodle/";
+            description = "path of moodle-dl folder";
+          };
           configFile = mkOption {
             type = types.path;
-            description = "path of jobo_bot.json config file."; 
+            description = "path of moodle-dl config file."; 
           };
         };
         config = lib.mkIf config.services.moodle-dl.enable {
           environment.systemPackages = with pkgs; [ moodle-dl ];
-          custom.services.syncthing.enable = true;
           services.cron = {
             enable = true;
             systemCronJobs = let
