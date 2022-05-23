@@ -7,8 +7,12 @@
   };
 
   outputs = { self, nixpkgs, utils, ... }@inputs:
+  let
+      lib = import ./lib.nix;
+  in
     {
       overlay = final: prev: {
+        mkJekyll = lib.mkJekyll; 
         jekyllFull = final.callPackage ({ bundlerEnv, ruby }: bundlerEnv {
           name = "jekyllFull";
           inherit ruby;
@@ -22,6 +26,7 @@
       in rec {
         packages = {
           jekyllFull = pkgs.jekyllFull;
+          mkJekyll = pkgs.mkJekyll;
         };
 
         defaultPackage = packages.jekyllFull;
