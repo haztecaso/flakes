@@ -7,36 +7,35 @@
   };
 
   outputs = { self, nixpkgs, utils, ... }@inputs:
-    {
-      overlay = final: prev: rec {
-        jekyllFull = prev.callPackage ({ bundlerEnv, ruby }: bundlerEnv {
+    utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        mkAppScript = name: script: {
+          type = "app";
+          program = "${pkgs.writeShellScriptBin name script}/bin/${name}";
+        };
+        jekyllFull = { bundlerEnv, ruby }: bundlerEnv {
           name = "jekyllFull";
           inherit ruby;
           gemfile = ./Gemfile;
           lockfile = ./Gemfile.lock;
           gemset = ./gemset.nix;
-        }) {};
-        mkWeb = {pname, version, src}: final.callPackage ({stdenv, ruby, nodejs}: stdenv.mkDerivation {
-            inherit pname version src;
-            buildInputs = [ jekyllFull ruby nodejs ];
-            buildPhase = ''
-	          JEKYLL_ENV=production jekyll build
-            '';
-            installPhase = ''
-              mkdir -p $out/www
-              cp -Tr _site $out/www/
-            '';
-        }) {};
-      };
-    } // utils.lib.eachDefaultSystem (system: let
-        pkgs = import nixpkgs { inherit system; overlays = [ self.overlay ]; };
-        mkAppScript = name: script: {
-          type = "app";
-          program = "${pkgs.writeShellScriptBin name script}/bin/${name}";
+        };
+        mkWeb = { jekyllFull, ruby, nodejs, stdenv }: stdenv.mkDerivation {
+          inherit pname version src;
+          buildInputs = [ jekyllFull ruby nodejs ];
+          buildPhase = ''
+	        JEKYLL_ENV=production jekyll build
+          '';
+          installPhase = ''
+            mkdir -p $out/www
+            cp -Tr _site $out/www/
+          '';
         };
       in rec {
-        packages.jekyllFull = pkgs.jekyllFull;
-        packages.mkWeb = pkgs.mkWeb;
+        packages.jekyllFull = pkgs.callPackage jekyllFull {};
+        packages.mkWeb = pkgs.callPackage mkWeb { jekyllFull = packages.jekyllFull; };
+
         defaultPackage = packages.jekyllFull;
 
         apps.lock = mkAppScript "lock" ''
