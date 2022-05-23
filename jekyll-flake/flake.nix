@@ -40,13 +40,23 @@
           export PATH="${nodejs}/bin:$PATH"
           JEKYLL_ENV=production ${pkgs.jekyllFull}/bin/jekyll serve --watch --incremental --livereload
         '';
-      in rec {
-        packages.jekyllFull = pkgs.callPackage jekyllFull {};
-        packages.mkWeb = pkgs.callPackage mkWeb { jekyllFull = packages.jekyllFull; };
-        packages.serve = pkgs.callPackage serve { jekyllFull = packages.jekyllFull; };
-        packages.serve-prod = pkgs.callPackage serve-prod { jekyllFull = packages.jekyllFull; };
+      in {
+        packages = {
+          jekyllFull = pkgs.callPackage jekyllFull {};
+          mkWeb      = pkgs.callPackage mkWeb { jekyllFull = packages.jekyllFull; };
+        };
 
         defaultPackage = packages.jekyllFull;
+
+        apps.serve = mkAppScript "serve" ''
+          export PATH="${nodejs}/bin:$PATH"
+          jekyll serve --watch --incremental --livereload
+        '';
+      
+        apps.serve-prod = mkAppScript "serve-prod" ''
+          export PATH="${nodejs}/bin:$PATH"
+          JEKYLL_ENV=production ${pkgs.jekyllFull}/bin/jekyll serve --watch --incremental --livereload
+        '';
 
         apps.lock = mkAppScript "lock" ''
           ${pkgs.bundler}/bin/bundle lock
