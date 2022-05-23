@@ -56,7 +56,8 @@
         '';
 
         devShell = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ jekyllFull ruby nodejs ];
+          packages   = [ jekyllFull ];
+          inputsFrom = [ jekyllFull ];
         };
       });
 }
