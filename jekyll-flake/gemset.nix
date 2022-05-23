@@ -11,7 +11,7 @@
     version = "2.8.0";
   };
   colorator = {
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -52,7 +52,7 @@
     version = "0.5.3";
   };
   eventmachine = {
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -92,7 +92,7 @@
     version = "1.15.5";
   };
   forwardable-extended = {
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -211,7 +211,7 @@
   };
   jekyll-watch = {
     dependencies = ["listen"];
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -225,10 +225,10 @@
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "1z9grvjyfz16ag55hg522d3q4dh07hf391sf9s96npc0vfi85xkz";
+      sha256 = "0yk5d10yvspkc5jyvx9gc1a9pn1z8v4k2hvjk1l88zixwf3wf3cl";
       type = "gem";
     };
-    version = "2.6.1";
+    version = "2.6.2";
   };
   json-minify = {
     dependencies = ["json"];
@@ -254,7 +254,7 @@
   };
   kramdown-parser-gfm = {
     dependencies = ["kramdown"];
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -264,7 +264,7 @@
     version = "1.1.0";
   };
   liquid = {
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -285,7 +285,7 @@
     version = "3.7.1";
   };
   mercenary = {
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -296,7 +296,7 @@
   };
   pathutil = {
     dependencies = ["forwardable-extended"];
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -327,7 +327,7 @@
   };
   rb-inotify = {
     dependencies = ["ffi"];
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -367,7 +367,7 @@
     version = "4.0.2";
   };
   safe_yaml = {
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -378,7 +378,7 @@
   };
   sassc = {
     dependencies = ["ffi"];
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -389,7 +389,7 @@
   };
   terminal-table = {
     dependencies = ["unicode-display_width"];
-    groups = ["default" "jekyll_plugins"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
