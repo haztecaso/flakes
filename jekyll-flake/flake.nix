@@ -8,13 +8,24 @@
 
   outputs = { self, nixpkgs, utils, ... }@inputs:
     {
-      overlay = final: prev: {
-        jekyllFull = final.callPackage ({ bundlerEnv, ruby }: bundlerEnv {
+      overlay = final: prev: rec {
+        jekyllFull = prev.callPackage ({ bundlerEnv, ruby }: bundlerEnv {
           name = "jekyllFull";
           inherit ruby;
           gemfile = ./Gemfile;
           lockfile = ./Gemfile.lock;
           gemset = ./gemset.nix;
+        }) {};
+        mkWeb = {pname, version, src}: final.callPackage ({stdenv, ruby, nodejs}: stdenv.mkDerivation {
+            inherit pname version src;
+            buildInputs = [ jekyllFull ruby nodejs ];
+            buildPhase = ''
+	          JEKYLL_ENV=production jekyll build
+            '';
+            installPhase = ''
+              mkdir -p $out/www
+              cp -Tr _site $out/www/
+            '';
         }) {};
       };
     } // utils.lib.eachDefaultSystem (system: let
@@ -25,6 +36,7 @@
         };
       in rec {
         packages.jekyllFull = pkgs.jekyllFull;
+        packages.mkWeb = pkgs.mkWeb;
         defaultPackage = packages.jekyllFull;
 
         apps.lock = mkAppScript "lock" ''
