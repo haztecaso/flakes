@@ -21,7 +21,7 @@
           lockfile = ./Gemfile.lock;
           gemset = ./gemset.nix;
         };
-        mkWeb = { jekyllFull, ruby, nodejs, stdenv }: stdenv.mkDerivation {
+        mkWeb = { jekyllFull, ruby, nodejs, stdenv }: { pname, version, src }: stdenv.mkDerivation {
           inherit pname version src;
           buildInputs = [ jekyllFull ruby nodejs ];
           buildPhase = ''
