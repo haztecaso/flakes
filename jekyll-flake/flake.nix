@@ -32,9 +32,19 @@
             cp -Tr _site $out/www/
           '';
         };
+        mkServeScript = { jekyllFull, ruby, nodejs }: mkAppScript "serve" ''
+          export PATH="${nodejs}/bin:$PATH"
+          ${jekyllFull}/bin/jekyll serve --watch --incremental --livereload
+        '';
+        mkServeProdScript = { jekyllFull, ruby, nodejs }: mkAppScript "serve-prod" ''
+          export PATH="${nodejs}/bin:$PATH"
+          JEKYLL_ENV=production ${pkgs.jekyllFull}/bin/jekyll serve --watch --incremental --livereload
+        '';
       in rec {
         packages.jekyllFull = pkgs.callPackage jekyllFull {};
         packages.mkWeb = pkgs.callPackage mkWeb { jekyllFull = packages.jekyllFull; };
+        packages.mkServeScript = pkgs.callPackage mkServeScript { jekyllFull = packages.jekyllFull; };
+        packages.mkServeProdScript = pkgs.callPackage mkServeScript { jekyllFull = packages.jekyllFull; };
 
         defaultPackage = packages.jekyllFull;
 
