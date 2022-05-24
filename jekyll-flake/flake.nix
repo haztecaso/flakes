@@ -54,5 +54,10 @@
           ${pkgs.bundler}/bin/bundle lock
           ${pkgs.bundix}/bin/bundix
         '';
+
+        devShell = pkgs.mkShell {
+          packages   = [ jekyllFull ];
+          inputsFrom = [ jekyllFull ];
+        };
       });
 }
