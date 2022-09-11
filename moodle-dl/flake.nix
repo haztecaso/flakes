@@ -54,7 +54,7 @@
             systemCronJobs = let
               freq = lib.strings.floatToString cfg.frequency;
             in [
-              ''*/${freq} * * * *  root . /etc/profile; ${script}/bin/moodle-dl''
+              ''*/${freq} 0-2,4-23 * * *  root . /etc/profile; ${script}/bin/moodle-dl''
                 ];
               };
             };
