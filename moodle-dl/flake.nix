@@ -10,15 +10,15 @@
       supportedSystems = [ "x86_64-linux" ];
       forAllSystems = f: l.genAttrs supportedSystems
         (system: f system (import nixpkgs {inherit system;}));
-    in
-    {
-      defaultPackage = forAllSystems (system: pkgs: mach-nix.lib."${system}".mkPython {
+      moodle-dl = mach-nix.lib."x86_64-linux".mkPython {
         requirements = ''
           moodle-dl
         '';
-      });
-      nixosModule = { config, lib, pkgs, ... }:
-      let
+      };
+    in
+    {
+      defaultPackage."x86_64-linux" = moodle-dl;
+      nixosModule = { config, lib, pkgs, ... }: let
         cfg = config.services.moodle-dl;
         i2s = lib.strings.floatToString;
         script = pkgs.writeScriptBin "moodle-dl" ''
@@ -28,8 +28,7 @@
           ln -fs ${cfg.configFile} config.json
           ${pkgs.moodle-dl}/bin/moodle-dl
         '';
-      in
-      {
+      in {
         options.services.moodle-dl = with lib; {
           enable = mkEnableOption "Enable moodle downloader service";
           frequency = mkOption {
@@ -48,7 +47,7 @@
           };
         };
         config = lib.mkIf config.services.moodle-dl.enable {
-          environment.systemPackages = with pkgs; [ moodle-dl ];
+          environment.systemPackages = [ moodle-dl ];
           services.cron = {
             enable = true;
             systemCronJobs = let
@@ -60,11 +59,7 @@
             };
       };
       overlay = final: prev: {
-        impo = final.callPackage (mach-nix.lib."x86_64-linux".mkPython {
-          requirements = ''
-            moodle-dl
-          '';
-        }) {};
+        moodle-dl = final.callPackage moodle-dl {};
       };
     };
 }
