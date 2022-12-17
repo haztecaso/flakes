@@ -60,7 +60,7 @@
             };
       };
       overlay = final: prev: {
-        impo = final.callPackage (mach-nix.lib.mkPython {
+        impo = final.callPackage (mach-nix.lib."x86_64-linux".mkPython {
           requirements = ''
             moodle-dl
           '';
