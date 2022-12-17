@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";
-    mach-nix.url = "mach-nix/3.4.0";
+    mach-nix.url = "mach-nix/3.5.0";
   };
 
   outputs = {self, nixpkgs, mach-nix }:
